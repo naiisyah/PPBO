@@ -1,0 +1,108 @@
+import java.util.*;
+
+class Gudang {
+    HashMap<Bahan, Integer> stokBahan = new HashMap<>();
+    HashMap<TipeBarang, Integer> isiGudang = new HashMap<>();
+
+    Gudang() {
+        stokBahan.put(Bahan.KAYU, 0);
+        stokBahan.put(Bahan.BAUT, 0);
+        stokBahan.put(Bahan.CAT, 0);
+        isiGudang.put(TipeBarang.MEJA, 0);
+        isiGudang.put(TipeBarang.KURSI, 0);
+        isiGudang.put(TipeBarang.LEMARI, 0);
+    }
+
+    void tambahBahan(Bahan bahan, int jumlah) {
+        stokBahan.put(bahan, stokBahan.get(bahan) + jumlah);
+    }
+
+    void kurangiBahan(Bahan bahan, int jumlah) {
+        stokBahan.put(bahan, stokBahan.get(bahan) - jumlah);
+    }
+
+    void buatBarang(TipeBarang tipeBarang, int jumlah) {
+        if (bahanPembuaanMencukupi(tipeBarang, jumlah)) {
+            switch (tipeBarang) {
+                case MEJA:
+                    kurangiBahan(Bahan.KAYU, 3 * jumlah);
+                    kurangiBahan(Bahan.BAUT, 20 * jumlah);
+                    kurangiBahan(Bahan.CAT, 2 * jumlah);
+                    isiGudang.put(TipeBarang.MEJA, isiGudang.get(TipeBarang.MEJA) + jumlah);
+                    break;
+                case KURSI:
+                    kurangiBahan(Bahan.KAYU, 2 * jumlah);
+                    kurangiBahan(Bahan.BAUT, 10 * jumlah);
+                    kurangiBahan(Bahan.CAT, 1 * jumlah);
+                    isiGudang.put(TipeBarang.KURSI, isiGudang.get(TipeBarang.KURSI) + jumlah);
+                    break;
+                case LEMARI:
+                    kurangiBahan(Bahan.KAYU, 5 * jumlah);
+                    kurangiBahan(Bahan.BAUT, 30 * jumlah);
+                    kurangiBahan(Bahan.CAT, 3 * jumlah);
+                    isiGudang.put(TipeBarang.LEMARI, isiGudang.get(TipeBarang.LEMARI) + jumlah);
+                    break;
+            }
+            System.out.println(jumlah + " " + tipeBarang + " berhasil di tambahkan ke gudang");
+            cekStokBahan();
+        } else {
+            System.out.println(jumlah + " " + tipeBarang + " gagal di tambahkan ke gudang, bahan tidak cukup");
+            cekStokBahan();
+        }
+    }
+
+    boolean bahanPembuaanMencukupi(TipeBarang tipeBarang, int jumlah) {
+        switch (tipeBarang) {
+            case MEJA:
+                return stokBahan.get(Bahan.KAYU) >= 3 * jumlah && stokBahan.get(Bahan.BAUT) >= 20 * jumlah && stokBahan.get(Bahan.CAT) >= 2 * jumlah;
+            case KURSI:
+                return stokBahan.get(Bahan.KAYU) >= 2 * jumlah && stokBahan.get(Bahan.BAUT) >= 10 * jumlah && stokBahan.get(Bahan.CAT) >= 1 * jumlah;
+            case LEMARI:
+                return stokBahan.get(Bahan.KAYU) >= 5 * jumlah && stokBahan.get(Bahan.BAUT) >= 30 * jumlah && stokBahan.get(Bahan.CAT) >= 3 * jumlah;
+            default:
+                return false;
+        }
+    }
+
+    void cekStokBahan() {
+        System.out.println("Stok Bahan:");
+        for (Bahan bahan : Bahan.values()) {
+            System.out.println("jumlah " + bahan + ", saat ini adalah :" + stokBahan.get(bahan) + " buah");
+        }
+        System.out.println();
+    }
+
+    void cekIsiGudang() {
+        System.out.println("Isi Gudang:");
+        for (TipeBarang tipeBarang : TipeBarang.values()) {
+            System.out.println("jumlah : " + tipeBarang + ", saat ini adalah : " + isiGudang.get(tipeBarang) + " buah");
+        }
+        System.out.println();
+    }
+
+    boolean slotTersedia(TipeBarang tipeBarang) {
+        switch (tipeBarang) {
+            case MEJA:
+                return isiGudang.get(TipeBarang.MEJA) < 10;
+            case KURSI:
+                return isiGudang.get(TipeBarang.KURSI) < 20;
+            case LEMARI:
+                return isiGudang.get(TipeBarang.LEMARI) < 5;
+            default:
+                return false;
+        }
+    }
+
+    void masukanBarangKeGudang(TipeBarang tipeBarang) {
+        if (slotTersedia(tipeBarang)) {
+            isiGudang.put(tipeBarang, isiGudang.get(tipeBarang) + 1);
+        }
+    }
+
+    void keluarkanBarangDariGudang(TipeBarang tipeBarang) {
+        if (isiGudang.get(tipeBarang) > 0) {
+            isiGudang.put(tipeBarang, isiGudang.get(tipeBarang) - 1);
+        }
+    }
+}
+
