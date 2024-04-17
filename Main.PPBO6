@@ -1,0 +1,41 @@
+import java.util.*;
+
+enum Bahan { KAYU, BAUT, CAT }
+enum TipeBarang { MEJA, KURSI, LEMARI }
+
+public class Main {
+    public static void main(String[] args) {
+        Toko mebell = new Toko();
+        mebell.gudangBarang.tambahBahan(Bahan.BAUT, 100);
+        mebell.gudangBarang.tambahBahan(Bahan.KAYU, 20);
+        mebell.gudangBarang.tambahBahan(Bahan.CAT, 15);
+
+        mebell.gudangBarang.buatBarang(TipeBarang.KURSI, 3);
+        mebell.gudangBarang.cekStokBahan();
+
+        mebell.gudangBarang.buatBarang(TipeBarang.KURSI, 5);
+        mebell.gudangBarang.buatBarang(TipeBarang.MEJA, 5);
+
+        mebell.gudangBarang.tambahBahan(Bahan.BAUT, 100);
+        mebell.gudangBarang.tambahBahan(Bahan.KAYU, 20);
+        mebell.gudangBarang.tambahBahan(Bahan.CAT, 15);
+        mebell.gudangBarang.cekStokBahan();
+
+        mebell.gudangBarang.buatBarang(TipeBarang.KURSI, 5);
+
+        mebell.gudangBarang.cekIsiGudang();
+
+        Pembeli pembeli1 = new Pembeli("hanif", TipeBarang.KURSI, 10);
+        Pembeli pembeli2 = new Pembeli("muflih", TipeBarang.MEJA, 5);
+        Pembeli pembeli3 = new Pembeli("fabih", TipeBarang.LEMARI, 3);
+
+        mebell.tambahAntrian(pembeli1);
+        mebell.tambahAntrian(pembeli2);
+        mebell.tambahAntrian(pembeli3);
+        mebell.cekIsiAntrian();
+
+        mebell.selesaikanAntrian();
+        mebell.cekIsiAntrian();
+        mebell.gudangBarang.cekIsiGudang();
+    }
+}
