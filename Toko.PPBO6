@@ -1,0 +1,41 @@
+import java.util.*;
+class Toko {
+    Gudang gudangBarang = new Gudang();
+    List<Pembeli> antrian = new ArrayList<>();
+
+    void tambahAntrian(Pembeli pembeli) {
+        antrian.add(pembeli);
+        System.out.println("berhasil menambahkan antrian");
+    }
+
+    void selesaikanAntrian() {
+        if (!antrian.isEmpty()) {
+            Pembeli pembeli = antrian.remove(0);
+            if (gudangBarang.isiGudang.get(pembeli.getBarangDiBeli()) >= pembeli.getJumlahBarang()) {
+                for (int i = 0; i < pembeli.getJumlahBarang(); i++) {
+                    gudangBarang.keluarkanBarangDariGudang(pembeli.getBarangDiBeli());
+                }
+                System.out.println(pembeli.getJumlahBarang() + " " + pembeli.getBarangDiBeli() + " berhasil di keluarkan dari gudang, antrian terdepan berhasil di selesaikan");
+            } else {
+                System.out.println("gagal membeli, stok tidak cukup");
+            }
+        }
+    }
+
+    void cekIsiAntrian() {
+        System.out.println("List Antrian :");
+        for (int i = 0; i < antrian.size(); i++) {
+            Pembeli pembeli = antrian.get(i);
+            System.out.println("antrian ke " + (i + 1) + ", nama : " + pembeli.getNama() + ", barang di beli " + pembeli.getBarangDiBeli() + ", jumlah barang di beli : " + pembeli.getJumlahBarang());
+        }
+        System.out.println();
+    }
+
+    boolean antrianPenuh() {
+        return antrian.size() >= 10;
+    }
+
+    boolean barangDiBeliTersedia(TipeBarang tipeBarang, int jumlahBarang) {
+        return gudangBarang.isiGudang.get(tipeBarang) >= jumlahBarang;
+    }
+}
