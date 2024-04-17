@@ -1,0 +1,23 @@
+class Pembeli {
+    String nama;
+    TipeBarang barangDiBeli;
+    int jumlahBarang;
+
+    Pembeli(String nama, TipeBarang barangDiBeli, int jumlahBarang) {
+        this.nama = nama;
+        this.barangDiBeli = barangDiBeli;
+        this.jumlahBarang = jumlahBarang;
+    }
+
+    String getNama() {
+        return nama;
+    }
+
+    TipeBarang getBarangDiBeli() {
+        return barangDiBeli;
+    }
+
+    int getJumlahBarang() {
+        return jumlahBarang;
+    }
+}
